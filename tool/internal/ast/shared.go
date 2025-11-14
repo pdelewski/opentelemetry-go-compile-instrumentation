@@ -58,7 +58,6 @@ func FindFuncDecl(root *dst.File, funcName, recv string) *dst.FuncDecl {
 		}
 
 		// Receiver type is specified, and target function has receiver
-		// Match both func name and receiver type
 		switch recvTypeExpr := funcDecl.Recv.List[0].Type.(type) {
 		case *dst.StarExpr: // func (*Recv)T
 			tn, ok := recvTypeExpr.X.(*dst.Ident)
