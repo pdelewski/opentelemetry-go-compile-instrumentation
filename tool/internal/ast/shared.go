@@ -67,10 +67,10 @@ func FindFuncDecl(root *dst.File, funcName, recv string) *dst.FuncDecl {
 				return false
 			}
 			t := "*" + tn.Name
-			return t == recv && name == funcName
+			return t == recv
 		case *dst.Ident: // func (Recv)T
 			t := recvTypeExpr.Name
-			return t == recv && name == funcName
+			return t == recv
 		case *dst.IndexExpr:
 			// This is a generic type, we don't support it yet
 			return false
