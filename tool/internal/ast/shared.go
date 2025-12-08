@@ -46,20 +46,10 @@ func FindFuncDeclWithoutRecv(root *dst.File, funcName string) *dst.FuncDecl {
 
 func FindFuncDecl(root *dst.File, funcName, recv string) *dst.FuncDecl {
 	decls := findFuncDecls(root, func(funcDecl *dst.FuncDecl) bool {
-		// Receiver type is ignored, match func name only
-		name := funcDecl.Name.Name
-		if recv == "" {
-			return name == funcName && !HasReceiver(funcDecl)
-		}
-		// Receiver type is specified, but target function does not have receiver
-		// That's not what we want
-		if !HasReceiver(funcDecl) {
-			return false
-		}
 
 		// Receiver type is specified, and target function has receiver
 		switch recvTypeExpr := funcDecl.Recv.List[0].Type.(type) {
-		case *dst.StarExpr: // func (*Recv)T
+		case *dst.StarExpr:
 			tn, ok := recvTypeExpr.X.(*dst.Ident)
 			if !ok {
 				// This is a generic type, we don't support it yet
